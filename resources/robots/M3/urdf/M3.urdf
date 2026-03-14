@@ -1,0 +1,963 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="M3">
+  <mujoco>
+  <compiler 
+    meshdir="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets" 
+    balanceinertia="true" 
+    discardvisual="false" />
+  </mujoco>
+  <link
+    name="base">
+    <inertial>
+      <origin
+        xyz="-0.00835685 0.00330516 0.0642815"
+        rpy="0 0 0" />
+      <mass
+        value="5.44847063" />
+      <inertia
+        ixx="0.05179254"
+        ixy="0.00064466"
+        ixz="0.00568199"
+        iyy="0.15001577"
+        iyz="-0.00077256"
+        izz="0.14231287" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.07"
+        rpy="0 0 0" />
+      <geometry>
+          <box size="0.497 0.169 0.147" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="FL_hip">
+    <inertial>
+      <origin
+        xyz="0.054696 0.0011963 2.9384E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.0416" />
+      <inertia
+        ixx="0.00039277"
+        ixy="-9.53E-05"
+        ixz="-2.31E-06"
+        iyy="0.0044852"
+        iyz="3.2E-07"
+        izz="0.0043197" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FL_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.064 0.09 0"
+        rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.08" radius="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FL_hip_joint"
+    type="revolute">
+    <origin
+      xyz="0.18927 0.062273 0.059297"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="FL_hip" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.4"
+      upper="0.4"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="FL_thigh">
+    <inertial>
+      <origin
+        xyz="0.0010657 -0.02692 -0.031825"
+        rpy="0 0 0" />
+      <mass
+        value="1.41948245" />
+      <inertia
+        ixx="0.00671197"
+        ixy="-3.027E-05"
+        ixz="0.00018596"
+        iyy="0.00489299"
+        iyz="0.00010044"
+        izz="0.00279803" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FL_thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0 0.005 -0.13"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.058 0.045 0.162" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FL_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="0.064 0.1157 0"
+      rpy="0 0 0" />
+    <parent
+      link="FL_hip" />
+    <child
+      link="FL_thigh" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.5"
+      upper="3.49"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="FL_calf">
+    <inertial>
+      <origin
+        xyz="0.0041876 -0.016087 -0.086051"
+        rpy="0 0 0" />
+      <mass
+        value="0.33181582" />
+      <inertia
+        ixx="0.00440998"
+        ixy="2.267E-05"
+        ixz="0.00019018"
+        iyy="0.00437152"
+        iyz="-0.00045705"
+        izz="0.000163" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FL_calf.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0 -0.013 -0.08"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.15" radius="0.01999" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FL_calf_joint"
+    type="revolute">
+    <origin
+      xyz="0.0031381 0.0188 -0.21198"
+      rpy="0 0 0" />
+    <parent
+      link="FL_thigh" />
+    <child
+      link="FL_calf" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.45"
+      upper="-0.84"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="FL_foot">
+    <inertial>
+      <origin
+        xyz="-6.3777E-06 0.028141 -7.5644E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.64923706" />
+      <inertia
+        ixx="0.00122107"
+        ixy="7E-08"
+        ixz="1.2E-07"
+        iyy="0.00146374"
+        iyz="7.3E-07"
+        izz="0.00122296" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FL_foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.03 0"
+        rpy="0 1.57 1.57" />
+      <geometry>
+        <cylinder length="0.03" radius="0.07" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FL_foot_joint"
+    type="revolute">
+    <origin
+      xyz="0.010478 -0.0155 -0.22676"
+      rpy="0 0 0" />
+    <parent
+      link="FL_calf" />
+    <child
+      link="FL_foot" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="6.47"
+      velocity="54.873" />
+  </joint>
+  <link
+    name="FR_hip">
+    <inertial>
+      <origin
+        xyz="0.054696 -0.0011955 -5.0679E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.0416" />
+      <inertia
+        ixx="0.00039277"
+        ixy="9.524E-05"
+        ixz="4.01E-06"
+        iyy="0.00448511"
+        iyz="3.27E-06"
+        izz="0.00431975" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FR_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.064 -0.09 0"
+        rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.08" radius="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_hip_joint"
+    type="revolute">
+    <origin
+      xyz="0.18927 -0.057726 0.059689"
+      rpy="-0.021074 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="FR_hip" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.4"
+      upper="0.4"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="FR_thigh">
+    <inertial>
+      <origin
+        xyz="0.00030963 0.02743 -0.031731"
+        rpy="0 0 0" />
+      <mass
+        value="1.42130584" />
+      <inertia
+        ixx="0.00677976"
+        ixy="2.618E-05"
+        ixz="9.532E-05"
+        iyy="0.00495725"
+        iyz="-5.954E-05"
+        izz="0.00278908" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FR_thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.005 -0.13"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.058 0.045 0.162" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="0.064 -0.11568 -0.00206"
+      rpy="0 0 0" />
+    <parent
+      link="FR_hip" />
+    <child
+      link="FR_thigh" />
+    <axis
+      xyz="0 0.99984 0.017805" />
+    <limit
+      lower="-1.5"
+      upper="3.49"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="FR_calf">
+    <inertial>
+      <origin
+        xyz="0.0014946 0.016719 -0.086511"
+        rpy="0 0 0" />
+      <mass
+        value="0.32996118" />
+      <inertia
+        ixx="0.00440595"
+        ixy="-9.28E-06"
+        ixz="6.216E-05"
+        iyy="0.00435269"
+        iyz="0.00050214"
+        izz="0.00016148" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FR_calf.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.013 -0.08"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.15" radius="0.01999" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_calf_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0020864 -0.015023 -0.21229"
+      rpy="0 0 0" />
+    <parent
+      link="FR_thigh" />
+    <child
+      link="FR_calf" />
+    <axis
+      xyz="0 0.99984 0.017805" />
+    <limit
+      lower="-2.45"
+      upper="-0.84"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="FR_foot">
+    <inertial>
+      <origin
+        xyz="1.1058E-05 -0.032641 -7.5103E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.64923706" />
+      <inertia
+        ixx="0.00137125"
+        ixy="1.8E-07"
+        ixz="-2.4E-07"
+        iyy="0.00146374"
+        iyz="-1.16E-06"
+        izz="0.00137309" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/FR_foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.03 0"
+        rpy="1.57 1.57 0" />
+      <geometry>
+       <cylinder length="0.03" radius="0.07" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_foot_joint"
+    type="revolute">
+    <origin
+      xyz="0.0036099 0.024038 -0.22658"
+      rpy="0.017806 0 0" />
+    <parent
+      link="FR_calf" />
+    <child
+      link="FR_foot" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="6.47"
+      velocity="54.873" />
+  </joint>
+  <link
+    name="RR_hip">
+    <inertial>
+      <origin
+        xyz="-0.054696 -0.0011963 2.9384E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.04158685" />
+      <inertia
+        ixx="0.00039277"
+        ixy="-9.53E-05"
+        ixz="2.31E-06"
+        iyy="0.00448518"
+        iyz="-3.2E-07"
+        izz="0.00431968" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RR_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.064 -0.09 0"
+        rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.08" radius="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RR_hip_joint"
+    type="revolute">
+    <origin
+      xyz="-0.18913 -0.057726 0.059689"
+      rpy="-0.021074 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="RR_hip" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.4"
+      upper="0.4"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="RR_thigh">
+    <inertial>
+      <origin
+        xyz="-0.0011071 0.018433 -0.029342"
+        rpy="0 0 0" />
+      <mass
+        value="1.37914359" />
+      <inertia
+        ixx="0.0056828"
+        ixy="-3.858E-05"
+        ixz="-0.00012322"
+        iyy="0.00459116"
+        iyz="-0.00032664"
+        izz="0.00199115" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RR_thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.01 -0.13"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.058 0.045 0.162" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RR_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="-0.064 -0.1057 0"
+      rpy="0 0 0" />
+    <parent
+      link="RR_hip" />
+    <child
+      link="RR_thigh" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.6"
+      upper="4.54"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="RR_calf">
+    <inertial>
+      <origin
+        xyz="0.0033057 0.015176 -0.086745"
+        rpy="0 0 0" />
+      <mass
+        value="0.32996118" />
+      <inertia
+        ixx="0.00440149"
+        ixy="-1.708E-05"
+        ixz="0.00015117"
+        iyy="0.00436924"
+        iyz="0.00042694"
+        izz="0.00014939" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RR_calf.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.013 -0.08"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.15" radius="0.01999" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RR_calf_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0093571 -0.0288 -0.21179"
+      rpy="0 0 0" />
+    <parent
+      link="RR_thigh" />
+    <child
+      link="RR_calf" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.45"
+      upper="-0.84"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="RR_foot">
+    <inertial>
+      <origin
+        xyz="1.2623E-05 -0.032641 -7.4856E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.64923706" />
+      <inertia
+        ixx="0.00137126"
+        ixy="2.1E-07"
+        ixz="-2.8E-07"
+        iyy="0.00146374"
+        iyz="-1.15E-06"
+        izz="0.00137308" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RR_foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.03 0"
+        rpy="1.57 1.57 0" />
+      <geometry>
+        <cylinder length="0.03" radius="0.07" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RR_foot_joint"
+    type="revolute">
+    <origin
+      xyz="0.0083461 0.02 -0.22685"
+      rpy="0 0 0" />
+    <parent
+      link="RR_calf" />
+    <child
+      link="RR_foot" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="6.47"
+      velocity="54.873" />
+  </joint>
+  <link
+    name="RL_hip">
+    <inertial>
+      <origin
+        xyz="-0.054696 0.0011963 -2.9384E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.04158685" />
+      <inertia
+        ixx="0.00039277"
+        ixy="9.53E-05"
+        ixz="-2.31E-06"
+        iyy="0.00448518"
+        iyz="-3.2E-07"
+        izz="0.00431968" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RL_hip.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.064 0.09 0"
+        rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.08" radius="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RL_hip_joint"
+    type="revolute">
+    <origin
+      xyz="-0.18913 0.062273 0.059297"
+      rpy="0.045894 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="RL_hip" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.4"
+      upper="0.4"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="RL_thigh">
+    <inertial>
+      <origin
+        xyz="0.00087894 -0.026905 -0.031976"
+        rpy="0 0 0" />
+      <mass
+        value="1.41999688" />
+      <inertia
+        ixx="0.00673661"
+        ixy="2.415E-05"
+        ixz="5.31E-05"
+        iyy="0.00490937"
+        iyz="9.66E-05"
+        izz="0.00278991" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RL_thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.005 -0.13"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.058 0.045 0.162" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RL_thigh_joint"
+    type="revolute">
+    <origin
+      xyz="-0.064 0.1157 0"
+      rpy="0 0 0" />
+    <parent
+      link="RL_hip" />
+    <child
+      link="RL_thigh" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.6"
+      upper="4.54"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="RL_calf">
+    <inertial>
+      <origin
+        xyz="0.0014419 -0.016097 -0.086796"
+        rpy="0 0 0" />
+      <mass
+        value="0.32996118" />
+      <inertia
+        ixx="0.00441544"
+        ixy="8.1E-06"
+        ixz="5.973E-05"
+        iyy="0.00436924"
+        iyz="-0.00045835"
+        izz="0.00015428" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RL_calf.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 -0.013 -0.08"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.15" radius="0.01999" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RL_calf_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0041197 0.0188 -0.21196"
+      rpy="0 0 0" />
+    <parent
+      link="RL_thigh" />
+    <child
+      link="RL_calf" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.45"
+      upper="-0.84"
+      effort="40"
+      velocity="16.76" />
+  </joint>
+  <link
+    name="RL_foot">
+    <inertial>
+      <origin
+        xyz="-8.7099E-06 0.032641 -7.5411E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.64923706" />
+      <inertia
+        ixx="0.00137124"
+        ixy="1.5E-07"
+        ixz="1.8E-07"
+        iyy="0.00146374"
+        iyz="1.16E-06"
+        izz="0.0013731" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/RL_foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.9098 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.03 0"
+        rpy="1.57 1.57 0" />
+      <geometry>
+        <cylinder length="0.03" radius="0.07" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RL_foot_joint"
+    type="revolute">
+    <origin
+      xyz="0.0034722 -0.02 -0.22697"
+      rpy="0 0 0" />
+    <parent
+      link="RL_calf" />
+    <child
+      link="RL_foot" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="6.47"
+      velocity="54.873" />
+  </joint>
+</robot>
