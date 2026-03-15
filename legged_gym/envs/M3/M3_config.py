@@ -145,9 +145,9 @@ class M3RoughCfgPPO( LeggedRobotCfgPPO ):
     class algorithm( LeggedRobotCfgPPO.algorithm ):
         entropy_coef = 0.005
     class runner( LeggedRobotCfgPPO.runner ):
-        save_interval = 5000 # check for potential saves every this many iterations
+        save_interval = 2500 # check for potential saves every this many iterations
         num_steps_per_env = 48 # per iteration
-        max_iterations = 20000
+        max_iterations = 10000
         # load and resume
         experiment_name = 'M3'
         run_name = ''
