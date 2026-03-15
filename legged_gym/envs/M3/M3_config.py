@@ -78,10 +78,10 @@ class M3RoughCfg(LeggedRobotCfg):
        'FR_thigh_joint': 1.0,
        'RR_thigh_joint': 1.0,
 
-       'FL_calf_joint': -1.4,
-       'RL_calf_joint': -1.4,
-       'FR_calf_joint': -1.4,
-       'RR_calf_joint': -1.4,
+       'FL_calf_joint': -1.5,
+       'RL_calf_joint': -1.5,
+       'FR_calf_joint': -1.5,
+       'RR_calf_joint': -1.5,
 
        'FL_foot_joint': 0.0,
        'RL_foot_joint': 0.0,
