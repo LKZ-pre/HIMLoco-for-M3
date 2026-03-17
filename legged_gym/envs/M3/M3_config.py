@@ -112,6 +112,45 @@ class M3RoughCfg(LeggedRobotCfg):
         replace_cylinder_with_capsule = False 
         flip_visual_attachments = False
     
+    #域随机化
+    class domain_rand:
+        randomize_payload_mass = True
+        payload_mass_range = [-1, 2]
+
+        randomize_com_displacement = True
+        com_displacement_range = [-0.1, 0.1]
+
+        randomize_link_mass = True
+        link_mass_range = [0.8, 1.2]
+        
+        randomize_friction = True
+        friction_range = [0.25, 2.25]
+        
+        randomize_restitution = True
+        restitution_range = [0., 1.0]
+        
+        randomize_motor_strength = True
+        motor_strength_range = [0.8, 1.2]
+        
+        randomize_kp = True
+        kp_range = [0.8, 1.2]
+        
+        randomize_kd = True
+        kd_range = [0.8, 1.2]
+        
+        randomize_initial_joint_pos = True
+        initial_joint_pos_range = [0.5, 1.5]
+        
+        disturbance = True
+        disturbance_range = [-30.0, 30.0]
+        disturbance_interval = 8
+        
+        push_robots = True
+        push_interval_s = 15
+        max_push_vel_xy = 1.
+
+        delay = True
+    
     # 奖励函数
     class rewards( LeggedRobotCfg.rewards ):
         class scales:
