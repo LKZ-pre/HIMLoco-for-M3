@@ -128,7 +128,7 @@ class LeggedRobotCfg(BaseConfig):
         com_displacement_range = [-0.1, 0.1]
 
         randomize_link_mass = True
-        link_mass_range = [0.7, 1.3]
+        link_mass_range = [0.8, 1.2]
         
         randomize_friction = True
         friction_range = [0.25, 2.25]
@@ -137,13 +137,13 @@ class LeggedRobotCfg(BaseConfig):
         restitution_range = [0., 1.0]
         
         randomize_motor_strength = True
-        motor_strength_range = [0.7, 1.3]
+        motor_strength_range = [0.8, 1.2]
         
         randomize_kp = True
-        kp_range = [0.7, 1.3]
+        kp_range = [0.8, 1.2]
         
         randomize_kd = True
-        kd_range = [0.7, 1.3]
+        kd_range = [0.8, 1.2]
         
         randomize_initial_joint_pos = True
         initial_joint_pos_range = [0.5, 1.5]
