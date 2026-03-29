@@ -155,21 +155,21 @@ class M3RoughCfg(LeggedRobotCfg):
     class rewards( LeggedRobotCfg.rewards ):
         class scales:
 
-            tracking_lin_vel = 1.5
-            tracking_ang_vel = 0.75
-            lin_vel_z = -1.0
-            ang_vel_xy = -0.05
-            orientation = -0.5
-            base_height = -10.0
-            hip_default = -0.5 
-            stand_still = -0.5
-            collision = -1.0
-            feet_stumble = -0.1
-            action_rate = -0.01
-            torques = -5.0e-4
-            dof_vel = -1e-7
-            dof_acc = -1e-7
-            run_still = -0.05
+            tracking_lin_vel = 1.5       # 线速度追踪奖励
+            tracking_ang_vel = 0.75      # 角速度追踪奖励
+            lin_vel_z = -1.0             # z轴线速度奖励（负值表示惩罚）
+            ang_vel_xy = -0.05           # xy平面角速度奖励（负值表示惩罚）
+            orientation = -0.5           # 方向奖励（负值表示惩罚）
+            base_height = -10.0          # 基座高度奖励（负值表示惩罚）
+            hip_default = -0.5           # 髋关节默认位置奖励（负值表示惩罚）
+            stand_still = -0.5           # 站立奖励（负值表示惩罚）
+            collision = -1.0             # 碰撞奖励（负值表示惩罚）
+            feet_stumble = -0.1          # 脚部绊倒奖励（负值表示惩罚）
+            action_rate = -0.01          # 动作率奖励（负值表示惩罚）
+            torques = -5.0e-4            # 扭矩奖励（负值表示惩罚）
+            dof_vel = -1e-7              # 关节速度奖励（负值表示惩罚）
+            dof_acc = -1e-7              # 关节加速度奖励（负值表示惩罚）
+            run_still = -0.05            # 运行静止奖励（负值表示惩罚）
 
         only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
