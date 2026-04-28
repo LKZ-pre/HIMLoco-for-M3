@@ -5,6 +5,7 @@ import mujoco              # MuJoCo 物理引擎 Python 绑定
 import mujoco.viewer       # 启动 MuJoCo 视觉窗口
 import time                # 计时工具
 import numpy as np         # 数值辅助
+import onnxruntime as ort  # 用于 ONNX 推理
 from pynput import keyboard  # 监听键盘输入
 from cmd_keyboard import get_cmd  # 从键盘获取速度命令的辅助函数
 
@@ -91,8 +92,12 @@ def main():
 
     # 尝试加载训练好的策略网络
     try:
-        policy = torch.jit.load(paths["policy_path"])
-        policy.eval().to(device)
+        if paths["policy_path"].endswith('.onnx'):
+            policy = ort.InferenceSession(paths["policy_path"])
+            print("Success to load ONNX policy network")
+        else:
+            policy = torch.jit.load(paths["policy_path"])
+            policy.eval().to(device)
         print("Success to load policy network")
     except Exception as e:
         policy = None
@@ -161,7 +166,16 @@ def main():
                 obs_now = torch.clip(obs_now, -100, 100)
                 obs_buffer = torch.cat([obs_now.unsqueeze(0), obs_buffer[:-1]], dim=0)
                 obs_seq = obs_buffer.flatten()
-                actions = policy(obs_seq)
+                print(f"\n--- Policy Input (Raw) ---\n{obs_seq.cpu().numpy()}")
+
+                if hasattr(policy, 'run'): # ONNX 推理
+                    onnx_input = {policy.get_inputs()[0].name: obs_seq.cpu().numpy().reshape(1, -1)}
+                    actions_numpy = policy.run(None, onnx_input)[0]
+                    actions = torch.from_numpy(actions_numpy).to(device).squeeze()
+                else: # JIT 推理
+                    actions = policy(obs_seq)
+                print(f"--- Policy Output (Raw) ---\n{actions.detach().cpu().numpy()}")
+
                 actions_scaled = actions * actions_scale
                 vel_ref = torch.zeros_like(actions_scaled)
                 vel_ref[wheel_ids] = actions[wheel_ids] * vel_scale

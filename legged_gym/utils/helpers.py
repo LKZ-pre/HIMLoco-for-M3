@@ -192,6 +192,25 @@ def export_policy_as_jit(actor_critic, path):
         traced_script_module = torch.jit.script(model)
         traced_script_module.save(path)
 
+def export_policy_as_onnx(actor_critic, path, num_obs):
+    if hasattr(actor_critic, 'estimator'):
+        # 如果是 HIM 架构，使用包装器将 Estimator 和 Actor 组合
+        model = PolicyExporterHIM(actor_critic).to('cpu')
+    else: 
+        model = copy.deepcopy(actor_critic.actor).to('cpu')
+    
+    os.makedirs(path, exist_ok=True)
+    onnx_path = os.path.join(path, 'policy.onnx')
+    
+    # 使用整个观测历史作为输入 (对于 M3 来说是 342)
+    dummy_input = torch.zeros(1, num_obs)
+
+    torch.onnx.export(model, dummy_input, onnx_path, 
+                      input_names=['input'], output_names=['output'],
+                      dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}},
+                      opset_version=11)
+    print('Exported policy as ONNX to: ', onnx_path)
+
 # class PolicyExporterLSTM(torch.nn.Module):
 #     def __init__(self, actor_critic):
 #         super().__init__()

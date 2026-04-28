@@ -4,7 +4,7 @@
 
 paths:
   scene_xml: "/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/scene.xml"
-  policy_path: "/home/lkz/HIMLoco-for-M3/logs/M3/exported/policies/policy.pt"
+  policy_path: "/home/lkz/HIMLoco-for-M3/logs/M3/exported/policies/policy.onnx"
 
 
 joint_names:
@@ -30,8 +30,8 @@ wheel_ids: [3, 7, 11, 15]
 default_dof_pos: [0.00, 1.0, -1.5, 0.00]  
 crouch_dof_pos:  [0.00, 0.4, -0.8, 0.00]   
 
-p_gains: [40.0, 40.0, 40.0, 0.0]
-d_gains: [2.0, 2.0, 2.0, 1.0]
+p_gains: [100.0, 100.0, 100.0, 0.0]
+d_gains: [2.0, 2.0, 2.0, 0.5]
 
 
 actions_scale: 0.25

@@ -22,7 +22,6 @@
       reflectance="0.2" />
     <hfield name="perlin_hfield" size="1.0 0.75 0.2 0.2" file="../height_field.png" />
     <hfield name="image_hfield" size="1.0 1.0 0.02 0.1" file="../unitree_hfield.png" />
-    <mesh file="Office_Chair_True_Scale.STL" scale="0.001 0.001 0.001" />
     <mesh name="flag" vertex="0 0 0  0.6 0 0  0 0 0.3 0 0.02 0 0 -0.02 0" />
   </asset>
 
@@ -55,11 +54,6 @@
       <geom pos="1.2 6.0 0.075" type="box" size="0.1 0.75 0.024999999999999994"
         quat="1.0 0.0 0.0 0.0" />
     </replicate>
-
-    <body pos="0 -1 0">
-      <freejoint />
-      <geom type="mesh" mesh="Office_Chair_True_Scale" xyaxes="1 0 0 0 0 1" />
-    </body>
 
     <geom type="box" pos="-2 -3 1" size="1 1 1" />
 

@@ -112,10 +112,9 @@ class GO2WRoughCfg(LeggedRobotCfg):
         replace_cylinder_with_capsule = False 
         flip_visual_attachments = True
     
-    # 奖励函数
+     # 奖励函数
     class rewards( LeggedRobotCfg.rewards ):
         class scales:
-
             tracking_lin_vel = 1.5
             tracking_ang_vel = 0.75
             lin_vel_z = -1.0

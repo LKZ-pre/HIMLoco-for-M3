@@ -853,7 +853,11 @@ class LeggedRobot(BaseTask):
         asset_options.linear_damping = self.cfg.asset.linear_damping
         asset_options.max_angular_velocity = self.cfg.asset.max_angular_velocity
         asset_options.max_linear_velocity = self.cfg.asset.max_linear_velocity
-        asset_options.armature = self.cfg.asset.armature
+        # 处理armature参数，如果是字典则使用默认值，在_process_dof_props中会单独处理每个关节
+        if isinstance(self.cfg.asset.armature, dict):
+            asset_options.armature = 0.0  # 使用默认值，后续会在_process_dof_props中覆盖
+        else:
+            asset_options.armature = self.cfg.asset.armature
         asset_options.thickness = self.cfg.asset.thickness
         asset_options.disable_gravity = self.cfg.asset.disable_gravity
 

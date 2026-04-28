@@ -43,7 +43,7 @@ class M3RoughCfg(LeggedRobotCfg):
     
     # 地形
     class terrain(LeggedRobotCfg.terrain):
-        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'plane' # "heightfield" # none, plane, heightfield or trimesh
         static_friction  = 0.8  # 静摩擦
         dynamic_friction = 0.8  # 动摩擦
         # 地形: [光滑坡, 粗糙坡, 上楼梯, 下楼梯, 随机离散地形]
@@ -73,10 +73,10 @@ class M3RoughCfg(LeggedRobotCfg):
        'FR_hip_joint': 0.0,
        'RR_hip_joint': 0.0,
 
-       'FL_thigh_joint': 1.0,
-       'RL_thigh_joint': 1.0,
-       'FR_thigh_joint': 1.0,
-       'RR_thigh_joint': 1.0,
+       'FL_thigh_joint': 0.8,
+       'RL_thigh_joint': 0.8,
+       'FR_thigh_joint': 0.8,
+       'RR_thigh_joint': 0.8,
 
        'FL_calf_joint': -1.5,
        'RL_calf_joint': -1.5,
@@ -92,8 +92,8 @@ class M3RoughCfg(LeggedRobotCfg):
     class control( LeggedRobotCfg.control ):
         # PD Drive parameters:
         control_type = 'P' 
-        stiffness = {'hip_joint': 40.,'thigh_joint': 40.,'calf_joint': 40.,"foot_joint":0}  
-        damping =   {'hip_joint': 1,'thigh_joint': 1,'calf_joint': 1,"foot_joint":0.5}     
+        stiffness = {'hip_joint': 100.,'thigh_joint': 100.,'calf_joint': 100.,"foot_joint":0}  
+        damping =   {'hip_joint': 2,'thigh_joint': 2,'calf_joint': 2,"foot_joint":0.5}     
         action_scale = 0.25
         vel_scale = 10.0
         decimation = 4
@@ -110,8 +110,9 @@ class M3RoughCfg(LeggedRobotCfg):
         priviledge_contacts_on = ["thigh", "calf", "base"] 
         self_collisions = 1 
         replace_cylinder_with_capsule = False 
-        flip_visual_attachments = False
-    
+        flip_visual_attachments = False 
+        
+
     #域随机化
     class domain_rand:
         randomize_payload_mass = True
@@ -136,7 +137,7 @@ class M3RoughCfg(LeggedRobotCfg):
         kp_range = [0.8, 1.2]
         
         randomize_kd = True
-        kd_range = [0.8, 1.2]
+        kd_range = [0.9, 1.1]
         
         randomize_initial_joint_pos = True
         initial_joint_pos_range = [0.5, 1.5]
@@ -154,29 +155,28 @@ class M3RoughCfg(LeggedRobotCfg):
     # 奖励函数
     class rewards( LeggedRobotCfg.rewards ):
         class scales:
-
-            tracking_lin_vel = 1.5       # 线速度追踪奖励
-            tracking_ang_vel = 0.75      # 角速度追踪奖励
-            lin_vel_z = -1.0             # z轴线速度奖励（负值表示惩罚）
-            ang_vel_xy = -0.05           # xy平面角速度奖励（负值表示惩罚）
-            orientation = -0.5           # 方向奖励（负值表示惩罚）
-            base_height = -10.0          # 基座高度奖励（负值表示惩罚）
-            hip_default = -0.5           # 髋关节默认位置奖励（负值表示惩罚）
-            stand_still = -0.5           # 站立奖励（负值表示惩罚）
-            collision = -1.0             # 碰撞奖励（负值表示惩罚）
-            feet_stumble = -0.1          # 脚部绊倒奖励（负值表示惩罚）
-            action_rate = -0.01          # 动作率奖励（负值表示惩罚）
-            torques = -5.0e-4            # 扭矩奖励（负值表示惩罚）
-            dof_vel = -1e-7              # 关节速度奖励（负值表示惩罚）
-            dof_acc = -1e-7              # 关节加速度奖励（负值表示惩罚）
-            run_still = -0.05            # 运行静止奖励（负值表示惩罚）
-
+            tracking_lin_vel = 1.5
+            tracking_ang_vel = 0.75
+            lin_vel_z = -2.0
+            ang_vel_xy = -0.05
+            orientation = -0.5
+            base_height = -1.0
+            hip_default = -0.5
+            stand_still = -0.5
+            collision = -1.0
+            feet_stumble = -1.0
+            action_rate = -0.01
+            torques = -1.0e-5
+            dof_vel = -1e-7
+            dof_acc = -1e-7
+            run_still = -0.05
+        
         only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
         soft_dof_vel_limit = 1.
         soft_torque_limit = 1.
-        base_height_target = 0.4
+        base_height_target = 0.3
         max_contact_force = 100. # forces above this value are penalized
        
        
