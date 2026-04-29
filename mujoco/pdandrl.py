@@ -75,17 +75,18 @@ def get_obs(actions, default_dof_pos, commands):
         dof_vel[i] = get_sensor_data(n + "_vel")[0]
 
     cmds = torch.tensor(commands, device=device)
+    
+    # 按照先后顺序拼接成 57 维向量
     return torch.cat([
         imu_gyro * sf["scale_ang_vel"],
         projected_gravity,
         cmds * commands_scale,
-        (dof_pos - default_dof_pos) * sf["scale_dof_pos"],
+        torch.zeros(16, device=device),
         dof_vel * sf["scale_dof_vel"],
         actions
     ], dim=-1)
 
 # 主运行函数
-
 def main():
     global control_mode
     control_mode = 0 # 初始为阻尼模式（0=阻尼 1=PD 2=RL）
@@ -115,21 +116,27 @@ def main():
     actions = torch.zeros(16, device=device)            # 保存上一次动作向量
     obs_buffer = torch.zeros((6, 57), device=device)    # RNN 风格策略的历史缓冲
 
+    # 用于控制打印频率的计数器
+    print_counter = 0
+
     # 键盘回调，用于切换控制模式
     def on_press(key):
         global control_mode
         try:
             if key.char == '1' and control_mode == 0:
                 control_mode = 1
-                print(" PD mode ......")
+                print("\n PD mode ......")
             elif key.char == '2' and control_mode == 1 and policy is not None:
                 control_mode = 2
-                print(" RL mode ......")
+                print("\n RL mode ......")
         except AttributeError:
             pass
 
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
+
+    # 设置 numpy 打印格式，方便阅读对齐
+    np.set_printoptions(precision=4, suppress=True, linewidth=200)
 
     # 使用 viewer 运行仿真循环
     with mujoco.viewer.launch_passive(m, d) as viewer:
@@ -138,7 +145,7 @@ def main():
             dof_vel = torch.cat([get_sensor_data(n+"_vel") for n in joint_names]).to(device)
             dof_err = default_dof_pos - dof_pos
 
-            # RL 控制分支
+            # RL 控制分支准备指令
             if control_mode == 2:
                 kb_cmd = get_cmd()
                 commands = kb_cmd
@@ -147,9 +154,9 @@ def main():
                 yaw_now = torch.atan2(2*(q_w*q_z + q_x*q_y), 1 - 2*(q_y*q_y + q_z*q_z))
                 yaw_err = torch.atan2(torch.sin(commands[2] - yaw_now), torch.cos(commands[2] - yaw_now))
                 commands[2] = yaw_kp * yaw_err
-                print(f"\rRL cmd: vx={commands[0]:+4.1f}  vy={commands[1]:+4.1f}  wz={commands[2]:+4.1f}  yaw_now={yaw_now:+4.2f}", end='')
             else:
                 commands = [0., 0., 0.]
+
             # PD 控制分支
             if control_mode == 1:
                 act = torch.zeros(16, device=device)
@@ -160,27 +167,51 @@ def main():
                         act[i] = (1.2 * 1.25 * p_gains[i]*dof_err[i] - d_gains[i]*dof_vel[i])
                 d.ctrl[:] = torch.clip(act, -100, 100).cpu().numpy()
 
+            # RL 控制分支执行推理
             elif control_mode == 2 and policy is not None:
 
                 obs_now = get_obs(actions, default_dof_pos, commands)
                 obs_now = torch.clip(obs_now, -100, 100)
+                
+                # 更新历史缓冲：将当前帧压入，挤掉最老的一帧
                 obs_buffer = torch.cat([obs_now.unsqueeze(0), obs_buffer[:-1]], dim=0)
                 obs_seq = obs_buffer.flatten()
-                print(f"\n--- Policy Input (Raw) ---\n{obs_seq.cpu().numpy()}")
 
+                # 推理执行 (得出神经网络的原始 action)
                 if hasattr(policy, 'run'): # ONNX 推理
                     onnx_input = {policy.get_inputs()[0].name: obs_seq.cpu().numpy().reshape(1, -1)}
                     actions_numpy = policy.run(None, onnx_input)[0]
                     actions = torch.from_numpy(actions_numpy).to(device).squeeze()
                 else: # JIT 推理
                     actions = policy(obs_seq)
-                print(f"--- Policy Output (Raw) ---\n{actions.detach().cpu().numpy()}")
 
+                # =========================================================
+                # 计算最终下发给电机的扭矩并赋值
+                # =========================================================
                 actions_scaled = actions * actions_scale
                 vel_ref = torch.zeros_like(actions_scaled)
                 vel_ref[wheel_ids] = actions[wheel_ids] * vel_scale
                 act = p_gains * (actions_scaled + dof_err) + d_gains * (vel_ref - dof_vel)
                 d.ctrl[:] = torch.clip(act, -100, 100).detach().cpu().numpy()
+
+                # =========================================================
+                #    ⬇️ 仅保留：按要求打印当前观测值 (obs_now) 的拆解数据 ⬇️
+                # =========================================================
+                print_counter += 1
+                if print_counter >= 50:  # 每 50 步打印一次
+                    obs_np = obs_now.detach().cpu().numpy()
+                    
+                    print("\n--- Current Observation (obs_now) ---")
+                    print(f"  IMU Gyro (scaled):             {obs_np[0:3]}")
+                    print(f"  Projected Gravity:             {obs_np[3:6]}")
+                    print(f"  Commands (scaled):             {obs_np[6:9]}")
+                    print(f"  DOF Position Error (scaled):   {obs_np[9:25]}")
+                    print(f"  DOF Velocity (scaled):         {obs_np[25:41]}")
+                    print(f"  Previous Actions:              {obs_np[41:57]}")
+                    
+                    print_counter = 0  # 重置计数器
+                # =========================================================
+
             else:
                 d.ctrl[:] = 0.0
 
@@ -193,7 +224,6 @@ def main():
             time_until_next_step = m.opt.timestep*4 - (time.time() - step_start)
             if time_until_next_step > 0:
                 time.sleep(time_until_next_step)
-
 
 if __name__ == "__main__":
     main()

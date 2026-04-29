@@ -79,16 +79,18 @@ def get_obs(actions, default_dof_pos, commands):
         imu_gyro * sf["scale_ang_vel"],
         projected_gravity,
         cmds * commands_scale,
-        (dof_pos - default_dof_pos) * sf["scale_dof_pos"],
+        torch.zeros(16, device=device),
         dof_vel * sf["scale_dof_vel"],
         actions
     ], dim=-1)
 
 # 主运行函数
-
 def main():
     global control_mode
     control_mode = 0 # 初始为阻尼模式（0=阻尼 1=PD 2=RL）
+
+    # 设置 NumPy 打印选项，使原始数据更具可读性
+    np.set_printoptions(precision=4, suppress=True, linewidth=150)
 
     # 尝试加载训练好的策略网络
     try:
@@ -115,16 +117,18 @@ def main():
     actions = torch.zeros(16, device=device)            # 保存上一次动作向量
     obs_buffer = torch.zeros((6, 57), device=device)    # RNN 风格策略的历史缓冲
 
+    print_counter = 0  # 增加计数器，避免刷屏
+
     # 键盘回调，用于切换控制模式
     def on_press(key):
         global control_mode
         try:
             if key.char == '1' and control_mode == 0:
                 control_mode = 1
-                print(" PD mode ......")
+                print("\n PD mode ......")
             elif key.char == '2' and control_mode == 1 and policy is not None:
                 control_mode = 2
-                print(" RL mode ......")
+                print("\n RL mode ......")
         except AttributeError:
             pass
 
@@ -147,9 +151,10 @@ def main():
                 yaw_now = torch.atan2(2*(q_w*q_z + q_x*q_y), 1 - 2*(q_y*q_y + q_z*q_z))
                 yaw_err = torch.atan2(torch.sin(commands[2] - yaw_now), torch.cos(commands[2] - yaw_now))
                 commands[2] = yaw_kp * yaw_err
-                print(f"\rRL cmd: vx={commands[0]:+4.1f}  vy={commands[1]:+4.1f}  wz={commands[2]:+4.1f}  yaw_now={yaw_now:+4.2f}", end='')
+                # 为了防止多行打印和单行打印冲突互相覆盖，去除了 \rRL cmd... 的打印
             else:
                 commands = [0., 0., 0.]
+            
             # PD 控制分支
             if control_mode == 1:
                 act = torch.zeros(16, device=device)
@@ -164,9 +169,25 @@ def main():
 
                 obs_now = get_obs(actions, default_dof_pos, commands)
                 obs_now = torch.clip(obs_now, -100, 100)
+
+                # ========================================================
+                # 这里加入了 print_counter 限制频率，每隔50步打印一次
+                # ========================================================
+                print_counter += 1
+                if print_counter >= 50:
+                    print(f"\n--- Current Observation (obs_now) ---")
+                    print(f"  IMU Gyro (scaled):             {obs_now[0:3].cpu().numpy()}")
+                    print(f"  Projected Gravity:             {obs_now[3:6].cpu().numpy()}")
+                    print(f"  Commands (scaled):             {obs_now[6:9].cpu().numpy()}")
+                    print(f"  DOF Position Error (scaled):   {obs_now[9:25].cpu().numpy()}")
+                    print(f"  DOF Velocity (scaled):         {obs_now[25:41].cpu().numpy()}")
+                    print(f"  Previous Actions:              {obs_now[41:57].cpu().numpy()}")
+                    print_counter = 0
+
                 obs_buffer = torch.cat([obs_now.unsqueeze(0), obs_buffer[:-1]], dim=0)
                 obs_seq = obs_buffer.flatten()
-                print(f"\n--- Policy Input (Raw) ---\n{obs_seq.cpu().numpy()}")
+                
+                # 【已在此处删除 print(f"--- Policy Input (Full Flattened, Shape: ...") 的代码】
 
                 if hasattr(policy, 'run'): # ONNX 推理
                     onnx_input = {policy.get_inputs()[0].name: obs_seq.cpu().numpy().reshape(1, -1)}
@@ -174,7 +195,8 @@ def main():
                     actions = torch.from_numpy(actions_numpy).to(device).squeeze()
                 else: # JIT 推理
                     actions = policy(obs_seq)
-                print(f"--- Policy Output (Raw) ---\n{actions.detach().cpu().numpy()}")
+                    
+                # 【已在此处删除 print(f"--- Policy Output (Raw, Shape: ...") 的代码】
 
                 actions_scaled = actions * actions_scale
                 vel_ref = torch.zeros_like(actions_scaled)
@@ -193,7 +215,6 @@ def main():
             time_until_next_step = m.opt.timestep*4 - (time.time() - step_start)
             if time_until_next_step > 0:
                 time.sleep(time_until_next_step)
-
 
 if __name__ == "__main__":
     main()
