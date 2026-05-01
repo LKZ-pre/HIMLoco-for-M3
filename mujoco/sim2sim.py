@@ -63,11 +63,13 @@ def get_obs(actions, default_dof_pos, commands):
     projected_gravity = world2self(base_quat, torch.tensor([0., 0., -1.], device=device))
     imu_gyro = get_sensor_data("imu_gyro")
 
-    # 得到关节位置并将车轮设为零
+    # 得到关节位置并计算相对默认姿势的误差，同时将车轮位置误差排除（设为零）
     dof_pos = torch.zeros(16, device=device)
     for i, n in enumerate(joint_names):
         dof_pos[i] = get_sensor_data(n + "_pos")[0]
-    dof_pos[wheel_ids] = 0.0
+        
+    dof_pos_err = dof_pos - default_dof_pos
+    dof_pos_err[wheel_ids] = 0.0  # 排查掉轮子数据，保持 0 
 
     # 得到关节速度
     dof_vel = torch.zeros(16, device=device)
@@ -79,7 +81,7 @@ def get_obs(actions, default_dof_pos, commands):
         imu_gyro * sf["scale_ang_vel"],
         projected_gravity,
         cmds * commands_scale,
-        torch.zeros(16, device=device),
+        dof_pos_err * sf["scale_dof_pos"],  # [修复点] 替换了之前的 torch.zeros(16, device=device) 占位符
         dof_vel * sf["scale_dof_vel"],
         actions
     ], dim=-1)

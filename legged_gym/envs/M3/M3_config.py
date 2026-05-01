@@ -43,7 +43,7 @@ class M3RoughCfg(LeggedRobotCfg):
     
     # 地形
     class terrain(LeggedRobotCfg.terrain):
-        mesh_type = 'plane' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
         static_friction  = 0.8  # 静摩擦
         dynamic_friction = 0.8  # 动摩擦
         # 地形: [光滑坡, 粗糙坡, 上楼梯, 下楼梯, 随机离散地形]
