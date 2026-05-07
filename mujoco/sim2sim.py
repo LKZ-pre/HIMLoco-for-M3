@@ -49,7 +49,8 @@ def get_sensor_data(name):
 # 将世界坐标系向量转换到机器人自身坐标系
 def world2self(quat, v):
     q_w, q_vec = quat[0], quat[1:]
-    v_vec = torch.tensor(v, device=device, dtype=torch.float32)
+    # 【修复 1】: 使用 as_tensor 代替 tensor，防止对已经是张量的对象重复拷贝触发警告
+    v_vec = torch.as_tensor(v, device=device, dtype=torch.float32)
     a = v_vec * (2.0 * q_w**2 - 1.0)
     b = torch.linalg.cross(q_vec, v_vec) * q_w * 2.0
     c = q_vec * torch.dot(q_vec, v_vec) * 2.0
@@ -81,12 +82,13 @@ def get_obs(actions, default_dof_pos, commands):
         imu_gyro * sf["scale_ang_vel"],
         projected_gravity,
         cmds * commands_scale,
-        dof_pos_err * sf["scale_dof_pos"],  # [修复点] 替换了之前的 torch.zeros(16, device=device) 占位符
+        dof_pos_err * sf["scale_dof_pos"],  
         dof_vel * sf["scale_dof_vel"],
         actions
     ], dim=-1)
 
 # 主运行函数
+@torch.no_grad() # 【修复 2】：关闭推理阶段的梯度追踪，提升速度避免显存泄漏
 def main():
     global control_mode
     control_mode = 0 # 初始为阻尼模式（0=阻尼 1=PD 2=RL）
@@ -153,7 +155,7 @@ def main():
                 yaw_now = torch.atan2(2*(q_w*q_z + q_x*q_y), 1 - 2*(q_y*q_y + q_z*q_z))
                 yaw_err = torch.atan2(torch.sin(commands[2] - yaw_now), torch.cos(commands[2] - yaw_now))
                 commands[2] = yaw_kp * yaw_err
-                # 为了防止多行打印和单行打印冲突互相覆盖，去除了 \rRL cmd... 的打印
+                
             else:
                 commands = [0., 0., 0.]
             
@@ -173,23 +175,21 @@ def main():
                 obs_now = torch.clip(obs_now, -100, 100)
 
                 # ========================================================
-                # 这里加入了 print_counter 限制频率，每隔50步打印一次
-                # ========================================================
                 print_counter += 1
                 if print_counter >= 50:
+                    # 【修复 3】：加入 .detach()，剥离计算图后再转 Numpy
+                    obs_np = obs_now.detach().cpu().numpy() 
                     print(f"\n--- Current Observation (obs_now) ---")
-                    print(f"  IMU Gyro (scaled):             {obs_now[0:3].cpu().numpy()}")
-                    print(f"  Projected Gravity:             {obs_now[3:6].cpu().numpy()}")
-                    print(f"  Commands (scaled):             {obs_now[6:9].cpu().numpy()}")
-                    print(f"  DOF Position Error (scaled):   {obs_now[9:25].cpu().numpy()}")
-                    print(f"  DOF Velocity (scaled):         {obs_now[25:41].cpu().numpy()}")
-                    print(f"  Previous Actions:              {obs_now[41:57].cpu().numpy()}")
+                    print(f"  IMU Gyro (scaled):             {obs_np[0:3]}")
+                    print(f"  Projected Gravity:             {obs_np[3:6]}")
+                    print(f"  Commands (scaled):             {obs_np[6:9]}")
+                    print(f"  DOF Position Error (scaled):   {obs_np[9:25]}")
+                    print(f"  DOF Velocity (scaled):         {obs_np[25:41]}")
+                    print(f"  Previous Actions:              {obs_np[41:57]}")
                     print_counter = 0
 
                 obs_buffer = torch.cat([obs_now.unsqueeze(0), obs_buffer[:-1]], dim=0)
                 obs_seq = obs_buffer.flatten()
-                
-                # 【已在此处删除 print(f"--- Policy Input (Full Flattened, Shape: ...") 的代码】
 
                 if hasattr(policy, 'run'): # ONNX 推理
                     onnx_input = {policy.get_inputs()[0].name: obs_seq.cpu().numpy().reshape(1, -1)}
@@ -197,8 +197,6 @@ def main():
                     actions = torch.from_numpy(actions_numpy).to(device).squeeze()
                 else: # JIT 推理
                     actions = policy(obs_seq)
-                    
-                # 【已在此处删除 print(f"--- Policy Output (Raw, Shape: ...") 的代码】
 
                 actions_scaled = actions * actions_scale
                 vel_ref = torch.zeros_like(actions_scaled)

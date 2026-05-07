@@ -43,7 +43,7 @@ class M3RoughCfg(LeggedRobotCfg):
     
     # 地形
     class terrain(LeggedRobotCfg.terrain):
-        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'plane' # "heightfield" # none, plane, heightfield or trimesh
         static_friction  = 0.8  # 静摩擦
         dynamic_friction = 0.8  # 动摩擦
         # 地形: [光滑坡, 粗糙坡, 上楼梯, 下楼梯, 随机离散地形]
@@ -112,45 +112,6 @@ class M3RoughCfg(LeggedRobotCfg):
         replace_cylinder_with_capsule = False 
         flip_visual_attachments = False 
         
-
-    #域随机化
-    class domain_rand:
-        randomize_payload_mass = True
-        payload_mass_range = [-1, 2]
-
-        randomize_com_displacement = True
-        com_displacement_range = [-0.1, 0.1]
-
-        randomize_link_mass = True
-        link_mass_range = [0.8, 1.2]
-        
-        randomize_friction = True
-        friction_range = [0.25, 2.25]
-        
-        randomize_restitution = True
-        restitution_range = [0., 1.0]
-        
-        randomize_motor_strength = True
-        motor_strength_range = [0.8, 1.2]
-        
-        randomize_kp = True
-        kp_range = [0.8, 1.2]
-        
-        randomize_kd = True
-        kd_range = [0.9, 1.1]
-        
-        randomize_initial_joint_pos = True
-        initial_joint_pos_range = [0.5, 1.5]
-        
-        disturbance = True
-        disturbance_range = [-30.0, 30.0]
-        disturbance_interval = 8
-        
-        push_robots = True
-        push_interval_s = 15
-        max_push_vel_xy = 1.
-
-        delay = True
     
     # 奖励函数
     class rewards( LeggedRobotCfg.rewards ):
@@ -160,8 +121,8 @@ class M3RoughCfg(LeggedRobotCfg):
             lin_vel_z = -2.0
             ang_vel_xy = -0.05
             orientation = -0.5
-            base_height = -1.0
-            hip_default = -0.5
+            base_height = -1
+            hip_default = -1.0
             stand_still = -0.5
             collision = -1.0
             feet_stumble = -1.0
@@ -176,7 +137,7 @@ class M3RoughCfg(LeggedRobotCfg):
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
         soft_dof_vel_limit = 1.
         soft_torque_limit = 1.
-        base_height_target = 0.3
+        base_height_target = 0.4
         max_contact_force = 100. # forces above this value are penalized
        
        

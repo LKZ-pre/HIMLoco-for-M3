@@ -80,7 +80,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0.064 0.00 0"
+        xyz="0.064 0.11 0"
         rpy="1.57 0 0" />
       <geometry>
         <cylinder length="0.06" radius="0.05" />
@@ -100,8 +100,8 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="-0.4"
-      upper="0.4"
+      lower="-1.0472"
+      upper="1.0472"
       effort="40"
       velocity="16.76" />
   </joint>
@@ -109,17 +109,17 @@
     name="FL_thigh">
     <inertial>
       <origin
-        xyz="0.00067237 -0.029818 -0.023583"
+        xyz="0.00079 -0.0295 -0.023"
         rpy="0 0 0" />
       <mass
-        value="1.5045" />
+        value="1.5034" />
       <inertia
-        ixx="0.0081086"
-        ixy="-3.029E-05"
-        ixz="0.00020633"
-        iyy="0.0063116"
-        iyz="0.0001011"
-        izz="0.0028899" />
+        ixx="0.008063"
+        ixy="3.3E-05"
+        ixz="-0.000239"
+        iyy="0.006261"
+        iyz="0.000153"
+        izz="0.002897" />
     </inertial>
     <visual>
       <origin
@@ -137,10 +137,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0.0 0.005 -0.08"
+        xyz="0.0 0.005 -0.115"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.090 0.05 0.262" />
+        <box size="0.05 0.05 0.12" />
       </geometry>
     </collision>
   </link>
@@ -166,17 +166,17 @@
     name="FL_calf">
     <inertial>
       <origin
-        xyz="0.0068255 -0.0085863 -0.1474"
+        xyz="0.00001472 -0.00858627 -0.1475"
         rpy="0 0 0" />
       <mass
-        value="0.77089" />
+        value="0.7708" />
       <inertia
-        ixx="0.023488"
-        ixy="2.668E-05"
-        ixz="0.0010609"
-        iyy="0.023504"
-        iyz="-0.00055699"
-        izz="0.00036417" />
+        ixx="0.02353"
+        ixy="9.4E-07"
+        ixz="-9.85E-06"
+        iyy="0.0235"
+        iyz="-0.00055763"
+        izz="0.00031560" />
     </inertial>
     <visual>
       <origin
@@ -194,10 +194,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0.0 -0.013 -0.1"
+        xyz="0.0 -0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.05 0.162" />
+        <box size="0.04 0.04 0.152" />
       </geometry>
     </collision>
   </link>
@@ -223,7 +223,7 @@
     name="FL_foot">
     <inertial>
       <origin
-        xyz="0 0.031582 -0.00040594"
+        xyz="0 0.037568 0"
         rpy="0 0 0" />
       <mass
         value="0.254" />
@@ -280,7 +280,7 @@
     name="FR_hip">
     <inertial>
       <origin
-        xyz="0.059769 -0.0014233 -6.033E-05"
+        xyz="0.059769 -0.0014242 -3.498E-05"
         rpy="0 0 0" />
       <mass
         value="1.0416" />
@@ -308,7 +308,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0.064 -0 0"
+        xyz="0.064 -0.11 0"
         rpy="1.57 0 0" />
       <geometry>
         <cylinder length="0.06" radius="0.05" />
@@ -328,8 +328,8 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="-0.4"
-      upper="0.4"
+      lower="-1.0472"
+      upper="1.0472"
       effort="40"
       velocity="16.76" />
   </joint>
@@ -337,17 +337,17 @@
     name="FR_thigh">
     <inertial>
       <origin
-        xyz="0.00010698 0.029838 -0.023316"
+        xyz="0.00079 0.0295 -0.023"
         rpy="0 0 0" />
       <mass
-        value="1.5063" />
+        value="1.5034" />
       <inertia
-        ixx="0.0081802"
-        ixy="2.586E-05"
-        ixz="8.351E-05"
-        iyy="0.0063774"
-        iyz="-9.135E-05"
-        izz="0.0028828" />
+        ixx="0.008063"
+        ixy="-3.3E-05"
+        ixz="-0.00023"
+        iyy="0.006261"
+        iyz="-0.000153"
+        izz="0.002897" />
     </inertial>
     <visual>
       <origin
@@ -365,10 +365,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0 -0.005 -0.08"
+        xyz="0 -0.005 -0.115"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.090 0.05 0.262" />
+        <box size="0.05 0.05 0.12" />
       </geometry>
     </collision>
   </link>
@@ -394,17 +394,17 @@
     name="FR_calf">
     <inertial>
       <origin
-        xyz="0.0023959 0.011643 -0.14735"
+        xyz="0.00001472 0.00858627 -0.1475"
         rpy="0 0 0" />
       <mass
-        value="0.77089" />
+        value="0.7708" />
       <inertia
-        ixx="0.023541"
-        ixy="-1.715E-05"
-        ixz="0.00036475"
-        iyy="0.023475"
-        iyz="0.0010121"
-        izz="0.00036034" />
+        ixx="0.02353"
+        ixy="-9.4E-07"
+        ixz="-9.85E-06"
+        iyy="0.0235"
+        iyz="0.00055763"
+        izz="0.00031560" />
     </inertial>
     <visual>
       <origin
@@ -422,10 +422,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0.013 -0.1"
+        xyz="0 0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.05 0.162" />
+        <box size="0.04 0.04 0.152" />
       </geometry>
     </collision>
   </link>
@@ -536,7 +536,7 @@
     </visual>
     <collision>
       <origin
-        xyz="-0.064 -0 0"
+        xyz="-0.064 -0.11 0"
         rpy="1.57 0 0" />
       <geometry>
         <cylinder length="0.06" radius="0.05" />
@@ -556,8 +556,8 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="-0.4"
-      upper="0.4"
+      lower="-1.0472"
+      upper="1.0472"
       effort="40"
       velocity="16.76" />
   </joint>
@@ -565,17 +565,17 @@
     name="RR_thigh">
     <inertial>
       <origin
-        xyz="-0.00084837 0.02036 -0.02198"
+        xyz="-0.00079 0.0295 -0.023"
         rpy="0 0 0" />
       <mass
-        value="1.4641" />
+        value="1.5034" />
       <inertia
-        ixx="0.0071005"
-        ixy="-4.47E-05"
-        ixz="-0.00017975"
-        iyy="0.0060097"
-        iyz="-0.00046676"
-        izz="0.0021084" />
+        ixx="0.008063"
+        ixy="-3.3E-05"
+        ixz="-0.000239"
+        iyy="0.006261"
+        iyz="-0.000153"
+        izz="0.002897" />
     </inertial>
     <visual>
       <origin
@@ -593,10 +593,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0 -0.005 -0.08"
+        xyz="0 -0.005 -0.115"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.090 0.05 0.262" />
+        <box size="0.05 0.05 0.112" />
       </geometry>
     </collision>
   </link>
@@ -622,17 +622,17 @@
     name="RR_calf">
     <inertial>
       <origin
-        xyz="0.0054749 0.009017 -0.14746"
+        xyz="0.00001472 0.00858627 -0.1475"
         rpy="0 0 0" />
       <mass
-        value="0.77089" />
+        value="0.7708" />
       <inertia
-        ixx="0.023517"
-        ixy="-2.318E-05"
-        ixz="0.00084901"
-        iyy="0.023505"
-        iyz="0.00059975"
-        izz="0.00035698" />
+        ixx="0.02354"
+        ixy="-1.12E-06"
+        ixz="-4.24E-06"
+        iyy="0.0235"
+        iyz="0.0006"
+        izz="0.0003" />
     </inertial>
     <visual>
       <origin
@@ -650,10 +650,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0.013 -0.1"
+        xyz="0 0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.05 0.162" />
+        <box size="0.04 0.04 0.152" />
       </geometry>
     </collision>
   </link>
@@ -764,7 +764,7 @@
     </visual>
     <collision>
       <origin
-        xyz="-0.064 0 0"
+        xyz="-0.064 0.11 0"
         rpy="1.57 0 0" />
       <geometry>
         <cylinder length="0.06" radius="0.05" />
@@ -784,8 +784,8 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="-0.4"
-      upper="0.4"
+      lower="-1.0472"
+      upper="1.0472"
       effort="40"
       velocity="16.76" />
   </joint>
@@ -793,17 +793,17 @@
     name="RL_thigh">
     <inertial>
       <origin
-        xyz="0.00040491 -0.02980916 -0.02370108"
+        xyz="0.00079 -0.0295 -0.023"
         rpy="0 0 0" />
       <mass
-        value="1.50500248" />
+        value="1.5034" />
       <inertia
-        ixx="0.00813308"
-        ixy="2.416E-05"
-        ixz="2.878E-05"
-        iyy="0.00632796"
-        iyz="9.725E-05"
-        izz="0.00288191" />
+        ixx="0.008063"
+        ixy="3.3E-05"
+        ixz="-0.000239"
+        iyy="0.006261"
+        iyz="0.000153"
+        izz="0.002897" />
     </inertial>
     <visual>
       <origin
@@ -821,10 +821,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0.005 -0.08"
+        xyz="0 0.005 -0.115"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.090 0.05 0.262" />
+        <box size="0.05 0.05 0.112" />
       </geometry>
     </collision>
   </link>
@@ -850,17 +850,17 @@
     name="RL_calf">
     <inertial>
       <origin
-        xyz="0.00227187 -0.00858627 -0.14754851"
+        xyz="0.00001472 -0.00858627 -0.1475"
         rpy="0 0 0" />
       <mass
-        value="0.77088638" />
+        value="0.7708" />
       <inertia
-        ixx="0.02353301"
-        ixy="9.47E-06"
-        ixz="0.00034532"
-        iyy="0.02350503"
-        iyz="-0.00055758"
-        izz="0.00032074" />
+        ixx="0.02353"
+        ixy="9.4E-07"
+        ixz="-0.00000985"
+        iyy="0.0235"
+        iyz="-0.00055763"
+        izz="0.00031560" />
     </inertial>
     <visual>
       <origin
@@ -878,10 +878,10 @@
     </visual>
     <collision>
       <origin
-        xyz="0 -0.013 -0.1"
+        xyz="0 -0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.05 0.162" />
+        <box size="0.04 0.04 0.152" />
       </geometry>
     </collision>
   </link>
