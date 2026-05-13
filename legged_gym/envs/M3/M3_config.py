@@ -34,7 +34,7 @@ class M3RoughCfg(LeggedRobotCfg):
 
     # 训练
     class env(LeggedRobotCfg.env):
-        num_envs = 100
+        num_envs = 2048
         num_one_step_observations = 3 + 3 + 3 + 16 + 16 + 16
         num_observations = num_one_step_observations * 6
         num_one_step_privileged_obs = num_one_step_observations + 3 + 3 + 11 * 17 + 12
@@ -43,7 +43,7 @@ class M3RoughCfg(LeggedRobotCfg):
     
     # 地形
     class terrain(LeggedRobotCfg.terrain):
-        mesh_type = 'plane' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
         static_friction  = 0.8  # 静摩擦
         dynamic_friction = 0.8  # 动摩擦
         # 地形: [光滑坡, 粗糙坡, 上楼梯, 下楼梯, 随机离散地形]
@@ -66,7 +66,7 @@ class M3RoughCfg(LeggedRobotCfg):
 
     # 初始状态
     class init_state( LeggedRobotCfg.init_state ):
-        pos = [0.0, 0.0, 0.45] # x,y,z [m] 
+        pos = [0.0, 0.0, 0.35] # x,y,z [m] 
         default_joint_angles = {  # = target angles [rad] when action = 0.0 [rad]
        'FL_hip_joint': 0.0,
        'RL_hip_joint': 0.0,
@@ -93,7 +93,7 @@ class M3RoughCfg(LeggedRobotCfg):
         # PD Drive parameters:
         control_type = 'P' 
         stiffness = {'hip_joint': 100.,'thigh_joint': 100.,'calf_joint': 100.,"foot_joint":0}  
-        damping =   {'hip_joint': 2,'thigh_joint': 2,'calf_joint': 2,"foot_joint":0.5}     
+        damping =   {'hip_joint': 2.5,'thigh_joint': 2.5,'calf_joint': 2.5,"foot_joint":0.5}     
         action_scale = 0.25
         vel_scale = 10.0
         decimation = 4
@@ -118,16 +118,16 @@ class M3RoughCfg(LeggedRobotCfg):
         class scales:
             tracking_lin_vel = 1.5
             tracking_ang_vel = 0.75
-            lin_vel_z = -2.0
+            lin_vel_z = -1.0
             ang_vel_xy = -0.05
             orientation = -0.5
-            base_height = -1
-            hip_default = -1.0
+            base_height = -2.0
+            hip_default = -0.5
             stand_still = -0.5
             collision = -1.0
-            feet_stumble = -1.0
+            feet_stumble = -0.1
             action_rate = -0.01
-            torques = -1.0e-5
+            torques = -5.0e-5
             dof_vel = -1e-7
             dof_acc = -1e-7
             run_still = -0.05
@@ -137,7 +137,7 @@ class M3RoughCfg(LeggedRobotCfg):
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
         soft_dof_vel_limit = 1.
         soft_torque_limit = 1.
-        base_height_target = 0.4
+        base_height_target = 0.33
         max_contact_force = 100. # forces above this value are penalized
        
        
