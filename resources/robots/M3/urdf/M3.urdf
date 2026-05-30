@@ -269,7 +269,7 @@
     <child
       link="FL_foot" />
     <axis
-      xyz="0 0.99999 0.0033901" />
+      xyz="0 1 0" />
     <limit
       lower="-999999"
       upper="999999"
@@ -383,7 +383,7 @@
     <child
       link="FR_thigh" />
     <axis
-      xyz="0 0.99984 0.017805" />
+      xyz="0 1 0" />
     <limit
       lower="-1.5"
       upper="3.49"
@@ -440,7 +440,7 @@
     <child
       link="FR_calf" />
     <axis
-      xyz="0 0.99984 0.017805" />
+      xyz="0 1 0" />
     <limit
       lower="-2.45"
       upper="-0.84"
