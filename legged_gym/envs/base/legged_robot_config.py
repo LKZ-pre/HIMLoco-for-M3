@@ -147,7 +147,7 @@ class LeggedRobotCfg(BaseConfig):
         kd_range = [0.9, 1.1]
         
         randomize_initial_joint_pos = True
-        initial_joint_pos_range = [0.5, 1.5]
+        initial_joint_pos_range = [0.8, 1.2]
         
         disturbance = True
         disturbance_range = [-30.0, 30.0]
