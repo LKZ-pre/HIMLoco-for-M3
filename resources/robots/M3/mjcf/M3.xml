@@ -1,7 +1,7 @@
 <mujoco model="M3">
     <compiler angle="radian" meshdir="/home/lkz/HIMLoco-for-M3/resources/robots/M3/mjcf/assets/" />
     <size njmax="500" nconmax="100" />
-    
+
     <option cone="elliptic" impratio="100" timestep="0.005" />
 
     <default>
