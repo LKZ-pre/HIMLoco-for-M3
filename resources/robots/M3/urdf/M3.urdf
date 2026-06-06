@@ -252,7 +252,7 @@
     <collision>
       <origin
         xyz="0 0.0 0"
-        rpy="0 1.57 1.57" />
+        rpy="1.57 1.57 0" />
       <geometry>
         <cylinder length="0.035" radius="0.07" />
       </geometry>
@@ -262,7 +262,7 @@
     name="FL_foot_joint"
     type="revolute">
     <origin
-      xyz="0.010478 -0.014013 -0.22635"
+      xyz="0.010478 -0.014013 -0.221627"
       rpy="0 0 0" />
     <parent
       link="FL_calf" />
@@ -320,7 +320,7 @@
     type="revolute">
     <origin
       xyz="0.18927 -0.057928 0.059493"
-      rpy="-0.017684 0 0" />
+      rpy="0 0 0" />
     <parent
       link="base" />
     <child
@@ -490,8 +490,8 @@
     name="FR_foot_joint"
     type="revolute">
     <origin
-      xyz="0.0036099 0.024038 -0.22658"
-      rpy="0.017806 0 0" />
+      xyz="0.0036099 0.024038 -0.220277"
+      rpy="0 0 0" />
     <parent
       link="FR_calf" />
     <child
@@ -548,7 +548,7 @@
     type="revolute">
     <origin
       xyz="-0.18913 -0.057928 0.059493"
-      rpy="-0.017684 0 0" />
+      rpy="0 0 0" />
     <parent
       link="base" />
     <child
@@ -718,7 +718,7 @@
     name="RR_foot_joint"
     type="revolute">
     <origin
-      xyz="0.0083461 0.02 -0.22685"
+      xyz="0.0083461 0.02 -0.234416"
       rpy="0 0 0" />
     <parent
       link="RR_calf" />
@@ -776,7 +776,7 @@
     type="revolute">
     <origin
       xyz="-0.18913 0.062072 0.059508"
-      rpy="0.049284 0 0" />
+      rpy="0 0 0" />
     <parent
       link="base" />
     <child
@@ -946,7 +946,7 @@
     name="RL_foot_joint"
     type="revolute">
     <origin
-      xyz="0.0034722 -0.02 -0.22697"
+      xyz="0.0034722 -0.02 -0.230432"
       rpy="0 0 0" />
     <parent
       link="RL_calf" />

@@ -34,7 +34,7 @@ p_gains: [100.0, 100.0, 100.0, 0.0]
 d_gains: [3.0, 3.0, 3.0, 1.0]
 
 
-actions_scale: 0.25
+actions_scale: 0.1
 vel_scale: 10.0
 yaw_kp: 2.5
 
