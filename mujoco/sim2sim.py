@@ -166,7 +166,7 @@ def main():
                     if i in wheel_ids:
                         act[i] = -d_gains[i]*dof_vel[i]
                     else:
-                        act[i] = (1.2 * 1.25 * p_gains[i]*dof_err[i] - d_gains[i]*dof_vel[i])
+                        act[i] = p_gains[i]*dof_err[i] - d_gains[i]*dof_vel[i]
                 d.ctrl[:] = torch.clip(act, -100, 100).cpu().numpy()
 
             elif control_mode == 2 and policy is not None:
@@ -177,15 +177,36 @@ def main():
                 # ========================================================
                 print_counter += 1
                 if print_counter >= 50:
-                    # 【修复 3】：加入 .detach()，剥离计算图后再转 Numpy
-                    obs_np = obs_now.detach().cpu().numpy() 
-                    print(f"\n--- Current Observation (obs_now) ---")
-                    print(f"  IMU Gyro (scaled):             {obs_np[0:3]}")
-                    print(f"  Projected Gravity:             {obs_np[3:6]}")
-                    print(f"  Commands (scaled):             {obs_np[6:9]}")
-                    print(f"  DOF Position Error (scaled):   {obs_np[9:25]}")
-                    print(f"  DOF Velocity (scaled):         {obs_np[25:41]}")
-                    print(f"  Previous Actions:              {obs_np[41:57]}")
+                    obs_np = obs_now.detach().cpu().numpy()
+
+                    # --- 轮子相关打印：策略输入侧 & 输出侧 ---
+                    # 轮子关节名 (FL/FR/RL/RR_wheel_joint)
+                    wheel_names = [joint_names[i] for i in wheel_ids]
+
+                    # ----- 输入侧：6 步历史中轮子相关的观测 -----
+                    obs_seq_np = obs_seq.detach().cpu().numpy().reshape(6, 57)
+                    print(f"\n{'='*60}")
+                    print(f"  [策略输入] 6 步历史中轮子相关数据")
+                    print(f"  {'步数':<6} {'dof_pos_err (scaled)':<44} {'dof_vel (scaled)':<44} {'prev_actions':<44}")
+                    for step in range(6):
+                        step_obs = obs_seq_np[step]
+                        pos_err_w = step_obs[9:25][wheel_ids]    # 轮子位置误差
+                        vel_w     = step_obs[25:41][wheel_ids]   # 轮子速度
+                        act_w     = step_obs[41:57][wheel_ids]   # 轮子上一步动作
+                        print(f"  t-{5-step:<4} {np.array2string(pos_err_w, formatter={'float': '{:8.4f}'.format})}  "
+                              f"{np.array2string(vel_w, formatter={'float': '{:8.4f}'.format})}  "
+                              f"{np.array2string(act_w, formatter={'float': '{:8.4f}'.format})}")
+
+                    # ----- 输出侧：策略输出的轮子动作 & 换算后的速度指令 -----
+                    actions_np = actions.detach().cpu().numpy()
+                    actions_wheel = actions_np[wheel_ids]
+                    vel_ref_wheel = actions_wheel * vel_scale
+
+                    print(f"  {'─'*58}")
+                    print(f"  [策略输出] 轮子动作")
+                    for i, wid in enumerate(wheel_ids):
+                        print(f"    {wheel_names[i]:<20s}  raw_action={actions_wheel[i]:+8.4f}  →  vel_ref={vel_ref_wheel[i]:+8.4f} rad/s")
+                    print(f"{'='*60}")
                     print_counter = 0
 
                 obs_buffer = torch.cat([obs_now.unsqueeze(0), obs_buffer[:-1]], dim=0)
