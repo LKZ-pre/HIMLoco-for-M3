@@ -58,7 +58,7 @@ class LeggedRobotCfg(BaseConfig):
         selected = False # select a unique terrain type and pass all arguments
         terrain_kwargs = None # Dict of arguments for selected terrain
         max_init_terrain_level = 5 # starting curriculum state
-        max_terrain_level = None # max terrain level during training, None means use num_rows
+        max_train_terrain_level = None # highest terrain row index during training, None means use all rows
         terrain_length = 8.
         terrain_width = 8.
         num_rows= 10 # number of terrain rows (levels)
@@ -118,21 +118,21 @@ class LeggedRobotCfg(BaseConfig):
         linear_damping = 0.
         max_angular_velocity = 1000.
         max_linear_velocity = 1000.
-        armature = 0.
+        armature = 0.01
         thickness = 0.01
 
     class domain_rand:
         randomize_payload_mass = True
-        payload_mass_range = [-1, 3]
+        payload_mass_range = [-1, 2]
 
         randomize_com_displacement = True
-        com_displacement_range = [-0.2, 0.2]
+        com_displacement_range = [-0.05, 0.05]
 
         randomize_link_mass = False
         link_mass_range = [0.8, 1.2]
         
         randomize_friction = True
-        friction_range = [0.6, 2.0]
+        friction_range = [0.25, 1.25]
         
         randomize_restitution = False
         restitution_range = [0., 1.0]
@@ -147,7 +147,7 @@ class LeggedRobotCfg(BaseConfig):
         kd_range = [0.8, 1.2]
         
         randomize_initial_joint_pos = True
-        initial_joint_pos_range = [0.8, 1.2]
+        initial_joint_pos_range = [0.5, 1.5]
         
         disturbance = True
         disturbance_range = [-30.0, 30.0]
@@ -158,7 +158,6 @@ class LeggedRobotCfg(BaseConfig):
         max_push_vel_xy = 1.
 
         delay = True
-
 
     class rewards:
         class scales:

@@ -32,9 +32,9 @@ from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg,LeggedRobotC
 
 class M3RoughCfg(LeggedRobotCfg):
 
-    # 训练
+     # 训练
     class env(LeggedRobotCfg.env):
-        num_envs = 2048
+        num_envs = 4096
         num_one_step_observations = 3 + 3 + 3 + 16 + 16 + 16
         num_observations = num_one_step_observations * 6
         num_one_step_privileged_obs = num_one_step_observations + 3 + 3 + 11 * 17 + 12
@@ -46,6 +46,8 @@ class M3RoughCfg(LeggedRobotCfg):
         mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
         static_friction  = 0.8  # 静摩擦
         dynamic_friction = 0.8  # 动摩擦
+        max_init_terrain_level = 2 # max terrain level during env reset (levels 0~4)       
+        max_train_terrain_level = 4 # highest terrain level during training (keeps num_rows=10)
         # 地形: [光滑坡, 粗糙坡, 上楼梯, 下楼梯, 随机离散地形]
         # terrain types: [smooth slope, rough slope, stairs up, stairs down, discrete]
         terrain_proportions = [0.1, 0.1, 0.35, 0.2, 0.25]
@@ -54,7 +56,7 @@ class M3RoughCfg(LeggedRobotCfg):
     # 指令
     class commands(LeggedRobotCfg.commands):
         curriculum = True
-        max_curriculum = 1.5
+        max_curriculum = 1.0
         num_commands = 4 # default: lin_vel_x, lin_vel_y, ang_vel_yaw, heading (in heading mode ang_vel_yaw is recomputed from heading error)
         resampling_time = 10. # time before command are changed[s]
         heading_command = True # if true: compute ang vel command from heading error
@@ -66,7 +68,7 @@ class M3RoughCfg(LeggedRobotCfg):
 
     # 初始状态
     class init_state( LeggedRobotCfg.init_state ):
-        pos = [0.0, 0.0, 0.35] # x,y,z [m] 
+        pos = [0.0, 0.0, 0.37] # x,y,z [m] 
         default_joint_angles = {  # = target angles [rad] when action = 0.0 [rad]
        'FL_hip_joint': 0.0,
        'RL_hip_joint': 0.0,
@@ -110,28 +112,28 @@ class M3RoughCfg(LeggedRobotCfg):
         priviledge_contacts_on = ["thigh", "calf", "base"] 
         self_collisions = 1 
         replace_cylinder_with_capsule = False 
-        flip_visual_attachments = False 
-        
+        flip_visual_attachments = False
     
     # 奖励函数
     class rewards( LeggedRobotCfg.rewards ):
         class scales:
-            tracking_lin_vel = 1.5
+
+            tracking_lin_vel = 2.0
             tracking_ang_vel = 0.75
             lin_vel_z = -1.0
             ang_vel_xy = -0.05
-            orientation = -0.5
-            base_height = -2.0
-            hip_default = -0.5
-            stand_still = -0.5
+            orientation = -1.0
+            base_height = -10.0
+            hip_default = -1.0 
+            stand_still = -1.0
             collision = -1.0
             feet_stumble = -0.1
             action_rate = -0.01
-            torques = -5.0e-5
+            torques = -5.0e-4
             dof_vel = -1e-7
             dof_acc = -1e-7
             run_still = -0.05
-        
+
         only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
@@ -145,7 +147,7 @@ class M3RoughCfgPPO( LeggedRobotCfgPPO ):
     class algorithm( LeggedRobotCfgPPO.algorithm ):
         entropy_coef = 0.005
     class runner( LeggedRobotCfgPPO.runner ):
-        save_interval = 2500 # check for potential saves every this many iterations
+        save_interval = 1000 # check for potential saves every this many iterations
         num_steps_per_env = 48 # per iteration
         max_iterations = 10000
         # load and resume
@@ -154,6 +156,4 @@ class M3RoughCfgPPO( LeggedRobotCfgPPO ):
         resume = None
         load_run = -1 # -1 = last run
         checkpoint = -1 # -1 = last saved model
-        resume_path = None # updated from load_run and chkpt
-
-  
+        resume_path = None # updated from load_run and chkptpoint in main.py

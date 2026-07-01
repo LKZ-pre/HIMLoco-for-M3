@@ -487,7 +487,7 @@ class LeggedRobot(BaseTask):
         Args:
             env_ids (List[int]): Environments ids for which new commands are needed
         """
-        self.commands[env_ids, 0] = torch_rand_float(self.command_ranges["lin_vel_x"][0],self.command_ranges["lin_vel_x"][1],(len(env_ids), 1),device=self.device).squeeze(1)
+        self.commands[env_ids, 0] = torch_rand_float(-1.0, 1.0, (len(env_ids), 1), device=self.device).squeeze(1)
         self.commands[env_ids, 1] = torch_rand_float(self.command_ranges["lin_vel_y"][0], self.command_ranges["lin_vel_y"][1], (len(env_ids), 1), device=self.device).squeeze(1)
         if self.cfg.commands.heading_command:
             self.commands[env_ids, 3] = torch_rand_float(self.command_ranges["heading"][0], self.command_ranges["heading"][1], (len(env_ids), 1), device=self.device).squeeze(1)
@@ -853,11 +853,7 @@ class LeggedRobot(BaseTask):
         asset_options.linear_damping = self.cfg.asset.linear_damping
         asset_options.max_angular_velocity = self.cfg.asset.max_angular_velocity
         asset_options.max_linear_velocity = self.cfg.asset.max_linear_velocity
-        # 处理armature参数，如果是字典则使用默认值，在_process_dof_props中会单独处理每个关节
-        if isinstance(self.cfg.asset.armature, dict):
-            asset_options.armature = 0.0  # 使用默认值，后续会在_process_dof_props中覆盖
-        else:
-            asset_options.armature = self.cfg.asset.armature
+        asset_options.armature = self.cfg.asset.armature
         asset_options.thickness = self.cfg.asset.thickness
         asset_options.disable_gravity = self.cfg.asset.disable_gravity
 
@@ -961,11 +957,16 @@ class LeggedRobot(BaseTask):
             self.custom_origins = True
             self.env_origins = torch.zeros(self.num_envs, 3, device=self.device, requires_grad=False)
             # put robots at the origins defined by the terrain
+            max_train_level = self.cfg.terrain.max_train_terrain_level
+            if max_train_level is None:
+                self.max_terrain_level = self.cfg.terrain.num_rows
+            else:
+                self.max_terrain_level = max(1, min(max_train_level + 1, self.cfg.terrain.num_rows))
             max_init_level = self.cfg.terrain.max_init_terrain_level
             if not self.cfg.terrain.curriculum: max_init_level = self.cfg.terrain.num_rows - 1
+            max_init_level = min(max_init_level, self.max_terrain_level - 1)
             self.terrain_levels = torch.randint(0, max_init_level+1, (self.num_envs,), device=self.device)
             self.terrain_types = torch.div(torch.arange(self.num_envs, device=self.device), (self.num_envs/self.cfg.terrain.num_cols), rounding_mode='floor').to(torch.long)
-            self.max_terrain_level = self.cfg.terrain.num_rows if self.cfg.terrain.max_terrain_level is None else self.cfg.terrain.max_terrain_level
             self.terrain_origins = torch.from_numpy(self.terrain.env_origins).to(self.device).to(torch.float)
             self.env_origins[:] = self.terrain_origins[self.terrain_levels, self.terrain_types]
         else:

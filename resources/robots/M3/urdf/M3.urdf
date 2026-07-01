@@ -197,7 +197,7 @@
         xyz="0.0 -0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.04 0.152" />
+        <box size="0.04 0.03 0.132" />
       </geometry>
     </collision>
   </link>
@@ -251,7 +251,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0.0 0"
+        xyz="0 0.032 0"
         rpy="1.57 1.57 0" />
       <geometry>
         <cylinder length="0.035" radius="0.07" />
@@ -262,7 +262,7 @@
     name="FL_foot_joint"
     type="revolute">
     <origin
-      xyz="0.010478 -0.014013 -0.221627"
+      xyz="0.010478 -0.014013 -0.224907609"
       rpy="0 0 0" />
     <parent
       link="FL_calf" />
@@ -274,7 +274,7 @@
       lower="-999999"
       upper="999999"
       effort="6.47"
-      velocity="54.873" />
+      velocity="27.873" />
   </joint>
   <link
     name="FR_hip">
@@ -425,7 +425,7 @@
         xyz="0 0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.04 0.152" />
+        <box size="0.04 0.03 0.132" />
       </geometry>
     </collision>
   </link>
@@ -479,7 +479,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0 -0 0"
+        xyz="0 -0.038 0"
         rpy="1.57 1.57 0" />
       <geometry>
        <cylinder length="0.035" radius="0.07" />
@@ -490,7 +490,7 @@
     name="FR_foot_joint"
     type="revolute">
     <origin
-      xyz="0.0036099 0.024038 -0.220277"
+      xyz="0.0036099 0.024038 -0.221027458"
       rpy="0 0 0" />
     <parent
       link="FR_calf" />
@@ -502,7 +502,7 @@
       lower="-999999"
       upper="999999"
       effort="6.47"
-      velocity="54.873" />
+      velocity="27.873" />
   </joint>
   <link
     name="RR_hip">
@@ -653,7 +653,7 @@
         xyz="0 0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.04 0.152" />
+        <box size="0.04 0.03 0.132" />
       </geometry>
     </collision>
   </link>
@@ -707,7 +707,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0 -0 0"
+        xyz="0 -0.038 0"
         rpy="1.57 1.57 0" />
       <geometry>
         <cylinder length="0.035" radius="0.07" />
@@ -718,7 +718,7 @@
     name="RR_foot_joint"
     type="revolute">
     <origin
-      xyz="0.0083461 0.02 -0.234416"
+      xyz="0.0083461 0.02 -0.234984818"
       rpy="0 0 0" />
     <parent
       link="RR_calf" />
@@ -730,7 +730,7 @@
       lower="-999999"
       upper="999999"
       effort="6.47"
-      velocity="54.873" />
+      velocity="27.873" />
   </joint>
   <link
     name="RL_hip">
@@ -881,7 +881,7 @@
         xyz="0 -0.013 -0.11"
         rpy="0 0 0" />
       <geometry>
-        <box size="0.04 0.04 0.152" />
+        <box size="0.04 0.03 0.132" />
       </geometry>
     </collision>
   </link>
@@ -935,7 +935,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
+        xyz="0 0.038 0"
         rpy="1.57 1.57 0" />
       <geometry>
         <cylinder length="0.035" radius="0.07" />
@@ -946,7 +946,7 @@
     name="RL_foot_joint"
     type="revolute">
     <origin
-      xyz="0.0034722 -0.02 -0.230432"
+      xyz="0.0034722 -0.02 -0.225832115"
       rpy="0 0 0" />
     <parent
       link="RL_calf" />
@@ -958,7 +958,7 @@
       lower="-999999"
       upper="999999"
       effort="6.47"
-      velocity="54.873" />
+      velocity="27.873" />
   </joint>
   <link
     name="imu">
